@@ -1,0 +1,25 @@
+name,farbe,preis,miete_basis,miete_1h,miete_2h,miete_3h,miete_4h,miete_hotel
+Badstraße,#964B00,60,2,10,30,90,160,250
+Turmstraße,#964B00,60,4,20,60,180,320,450
+Badstraße2,#654321,60,2,10,30,90,160,250
+Turmstraße2,#654321,60,4,20,60,180,320,450
+Chausseestraße,#87CEEB,100,6,30,90,270,400,550
+Elisenstraße,#87CEEB,100,6,30,90,270,400,550
+Poststraße,#87CEEB,100,6,30,90,270,400,550
+Seestraße,#FF69B4,100,6,30,90,270,400,550
+Hafenstraße,#FF69B4,100,6,30,90,270,400,550
+Neue Straße,#FF69B4,100,6,30,90,270,400,550
+Münchner Straße,#FFA500,100,6,30,90,270,400,550
+Wiener Straße,#FFA500,100,6,30,90,270,400,550
+Beliner Straße,#FFA500,100,6,30,90,270,400,550
+Theaterstraße,#FF0000,100,6,30,90,270,400,550
+Museumstraße,#FF0000,100,6,30,90,270,400,550
+Opernplatz,#FF0000,100,6,30,90,270,400,550
+Lessingstraße,#FFFF00,100,6,30,90,270,400,550
+Schillerstraße,#FFFF00,100,6,30,90,270,400,550
+Goethestraße,#FFFF00,100,6,30,90,270,400,550
+Rathausplatz,#008000,100,6,30,90,270,400,550
+Hauptstraße,#008000,100,6,30,90,270,400,550
+Bahnhofstraße,#008000,100,6,30,90,270,400,550
+Parkstraße,#000080,240,20,100,300,750,925,1100
+Schlossallee,#000080,240,20,100,300,750,925,1100
