@@ -10,17 +10,10 @@
 
     <!-- Hintergrund -->
     <rect width="100%" height="100%" fill="{{ color }}" stroke="black" stroke-width="2"/>
+
+    <!-- Background image -->
+    <!-- image x="0" y="0" width="100%" height="100%" href="data:image/svg+xml;base64,{{ img_b64 }}" /-->
     
     <!-- Title -->
-    <text x="3%" y="30%" text-anchor="left" class="card-title">Gemeinschaftskarte</text>
-
-    <!-- Bild -->
-    <image x="30%" y="5%" width="100%" height="100%" href="data:image/svg+xml;base64,{{ img_b64 }}" />
-
-    <!-- Text-Umrechnung mit TSPAN -->
-    <text x="35%" y="55%" text-anchor="middle" class="card-text">
-        {% for line in lines %}
-            <tspan x="35%" dy="{{ '0' if loop.first else '1.2em' }}">{{ line }}</tspan>
-        {% endfor %}
-    </text>
+    <text x="50%" y="50%" text-anchor="middle" class="card-title">EREIGNISKARTE</text>
 </svg>

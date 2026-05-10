@@ -10,9 +10,11 @@ import convert
 DPI = 150 # DPI setting
 card_width = 86.5
 card_height = 56
-activity_card_color = "#f5da0f"
 
-def create_community_card_frontside(width, height, text):
+# chance card - yellow #f5da0f
+activity_card_color = "#d2932d"
+
+def create_chance_card_frontside(width, height, text):
     # 1. Setup Jinja2 (sucht im Ordner 'templates')
     env = Environment(loader=FileSystemLoader('templates'))
     template = env.get_template('commuinty_card_front.svg.j2')
@@ -42,7 +44,7 @@ def create_community_card_frontside(width, height, text):
     )
 
 
-def create_community_card_backside(width, height):
+def create_chance_card_backside(width, height):
     # 1. Setup Jinja2 (sucht im Ordner 'templates')
     env = Environment(loader=FileSystemLoader('templates'))
     template = env.get_template('commuinty_card_back.svg.j2')
@@ -59,31 +61,31 @@ def create_community_card_backside(width, height):
     )
 
 def generate_from_csv(csv_filename):
-    if not os.path.exists("output/community"):
-        os.makedirs("output/community")
+    if not os.path.exists("output/chance"):
+        os.makedirs("output/chance")
 
     with open(csv_filename, mode='r', encoding='utf-8') as file:
         reader = csv.DictReader(file,  delimiter=';')
         for row in reader:
             # Karte generieren (mit deiner Original-Logik)
-            svg_content = create_community_card_frontside(
+            svg_content = create_chance_card_frontside(
                 width=card_width, 
                 height=card_height,
                 text=row['text']
             )
         
-            filename = f"output/community/{row['name'].replace(' ', '_')}_front.svg"
+            filename = f"output/chance/{row['name'].replace(' ', '_')}_front.svg"
             with open(filename, "w", encoding="utf-8") as f:
                 f.write(svg_content)
             print(f"file {filename} created")
 
             ## Karte generieren (mit deiner Original-Logik)
-            svg_content = create_community_card_backside(
+            svg_content = create_chance_card_backside(
                 width=card_width,
                 height=card_height
             )
         
-            filename = f"output/community/{row['name'].replace(' ', '_')}_back.svg"
+            filename = f"output/chance/{row['name'].replace(' ', '_')}_back.svg"
             with open(filename, "w", encoding="utf-8") as f:
                 f.write(svg_content)
             print(f"file {filename} created")
@@ -91,4 +93,4 @@ def generate_from_csv(csv_filename):
 if __name__ == "__main__":
     # Falls du die CSV noch nicht hast, erstelle sie kurz mit den Spaltennamen:
     # name,farbe,preis,miete_basis,miete_1h,miete_2h,miete_3h,miete_4h,miete_hotel
-    generate_from_csv('data/community_cards.csv')
+    generate_from_csv('data/chance_cards.csv')
