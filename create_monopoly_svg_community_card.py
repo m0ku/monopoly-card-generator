@@ -1,5 +1,6 @@
 import csv
 import os
+from jinja2 import Environment, FileSystemLoader
 
 # local functions
 import read
@@ -10,10 +11,39 @@ DPI = 150 # DPI setting
 card_width = 86.5
 card_height = 56
 
-# community card - yellow #d3c70d
+# community card - yellow #f5da0f
 # activity card - organge #d2932d
 
 def create_community_card_frontside(width, height, text):
+    # 1. Setup Jinja2 (sucht im Ordner 'templates')
+    env = Environment(loader=FileSystemLoader('templates'))
+    template = env.get_template('commuinty_card.svg.j2')
+
+    # 2. Text-Logik (Berechnung bleibt in Python)
+    max_chars = 30
+    words = text.split()
+    lines, current_line = [], []
+    for word in words:
+        if len(" ".join(current_line + [word])) <= max_chars:
+            current_line.append(word)
+        else:
+            lines.append(" ".join(current_line))
+            current_line = [word]
+    lines.append(" ".join(current_line))
+
+    # 3. Daten an das Template übergeben
+    return template.render(
+        width=convert.millimeter_to_pixel(86.5, DPI),
+        height=convert.millimeter_to_pixel(56, DPI),
+        color="#f5da0f",
+        title_size=28,
+        font_size=12,
+        font_b64=read.as_base64("font/MONOPOLY_INLINE.woff2"),
+        img_b64=read.as_base64("img/figure1.svg"),
+        lines=lines
+    )
+
+def create_community_card_frontside_backup(width, height, text):
     header_h = height * 0.20 # Etwas kleiner für den schwebenden Look
     margin = 12              # Abstand zum Kartenrand
     padding = 8              # Lücke zwischen Rahmen und Farbfeld
@@ -57,7 +87,7 @@ def create_community_card_frontside(width, height, text):
             font-size: 11px;
         }}
     </style>
-    
+
     <!-- 1. Äußerer Kartenrand -->
         <rect width="100%" height="100%" fill="{color}" stroke="black" stroke-width="2"/>
         <!-- 2. Innerer Rahmen -->
