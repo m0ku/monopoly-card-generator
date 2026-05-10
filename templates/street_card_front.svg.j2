@@ -1,0 +1,50 @@
+<svg width="{{ width }}" height="{{ height }}" viewBox="0 0 {{ width }} {{ height }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <style>
+        @font-face {
+            font-family: 'Monopoly';
+            src: url(data:font/woff2;base64,{{ font_b64 }}) format('woff2');
+        }
+        .card-title { font-family: 'sans-serif'; font-size: {{ title_size }}px; font-weight: bold; }
+        .card-text-bold { font-family: 'sans-serif'; font-size: {{ font_size }}px; font-weight: bold; }
+        .card-text { font-family: 'sans-serif'; font-size: {{ font_size }}px;}
+        .card-text-small { font-family: 'sans-serif'; font-size: {{ font_size - 1 }}px;}
+    </style>
+
+    <!-- 1. Äußerer Kartenrand -->
+    <rect width="100%" height="100%" fill="white" stroke="black" stroke-width="2"/>
+    
+    <!-- 2. Innerer Rahmen -->
+    <rect x="{{margin}}" y="{{margin}}" width="{{inner_width}}" height="{{inner_height}}" fill="none" stroke="black" stroke-width="1"/>
+    
+    <!-- 3. Schwebendes Farbfeld (mit Abstand zum Rahmen) -->
+    <rect x="{{rect_x}}" y="{{rect_y}}" width="{{rect_w}}" height="{{header_h}}" fill="{{color}}" stroke="black" stroke-width="1.5"/>
+    
+    <!-- Titel -->
+    <text x="50%" y="{{title_y - 20}}" text-anchor="middle" class="card-text-bold" fill="black" style="text-transform: uppercase;">Besitzrechtkarte</text>
+    <text x="50%" y="{{title_y + 15}}" text-anchor="middle" class="card-title" fill="black" style="text-transform: uppercase;">{{title}}</text>
+    
+    <!-- Mietentabelle -->
+    <g transform="translate({{margin + 15}}, {{rect_y + header_h + 35}})" class="monopoly-text-normal" font-size="14">
+        <text x="0" y="0">Grundstückswert</text> <text x="{{width - 2*margin - 30}}" y="0" text-anchor="end">{{price}}€</text>
+        <text x="0" y="20">Miete Grundstück allein</text> <text x="{{width - 2*margin - 30}}" y="20" text-anchor="end">{{rents[0]}}€</text>
+        <text x="0" y="40">Mit 1 Haus</text> <text x="{{width - 2*margin - 30}}" y="40" text-anchor="end">{{rents[1]}}€</text>
+        <text x="0" y="60">Mit 2 Häusern</text> <text x="{{width - 2*margin - 30}}" y="60" text-anchor="end">{{rents[2]}}€</text>
+        <text x="0" y="80">Mit 3 Häusern</text> <text x="{{width - 2*margin - 30}}" y="80" text-anchor="end">{{rents[3]}}€</text>
+        <text x="0" y="100">Mit 4 Häusern</text> <text x="{{width - 2*margin - 30}}" y="100" text-anchor="end">{{rents[4]}}€</text>
+        <text x="0" y="120">Mit Hotel</text> <text x="{{width - 2*margin - 30}}" y="120" text-anchor="end">{{rents[5]}}€</text>
+        <!-- circle cx="40%" cy="125" r="3" fill="red" /-->
+        <line x1="0%" y1="130" x2="84%" y2="130" style="stroke:black;stroke-width:0.5"/>
+        <text x="0" y="150" class="card-text-small">
+            <tspan x="40%" dy="0" text-anchor="middle" >Wenn ein Spieler alle Grundstücke einer</tspan>
+            <tspan x="40%" dy="1.2em" text-anchor="middle">Farbengruppe besitzt, so ist die Miete auf</tspan>
+            <tspan x="40%" dy="1.2em" text-anchor="middle" >den unbebauten Grundstücken dieser</tspan>
+            <tspan x="40%" dy="1.2em" text-anchor="middle" >Farbgruppe doppelt so hoch.</tspan>
+        </text>
+        <line x1="0%" y1="205" x2="84%" y2="205" style="stroke:black;stroke-width:0.5"/>
+    <!-- Unterer Bereich -->
+    <text x="0%" y="230">1 Haus kostet</text> <text x="{{width - 2*margin - 30}}" y="230" text-anchor="end">{{rents[6]}}€</text>
+    <text x="0%" y="250">1 Hotel kostet</text> <text x="{{width - 2*margin - 30}}" y="250" text-anchor="end">{{rents[7]}}€</text>
+    <text x="{{width - 2*margin - 30}}" y="265" text-anchor="end" class="card-text-small">(plus 4 Häuser)</text>
+    </g>
+
+</svg>
