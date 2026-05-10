@@ -15,7 +15,7 @@ activity_card_color = "#f5da0f"
 def create_community_card_frontside(width, height, text):
     # 1. Setup Jinja2 (sucht im Ordner 'templates')
     env = Environment(loader=FileSystemLoader('templates'))
-    template = env.get_template('commuinty_card_front.svg.j2')
+    template = env.get_template('community_card_front.svg.j2')
 
     # 2. Text-Logik (Berechnung bleibt in Python)
     max_chars = 30
@@ -45,7 +45,7 @@ def create_community_card_frontside(width, height, text):
 def create_community_card_backside(width, height):
     # 1. Setup Jinja2 (sucht im Ordner 'templates')
     env = Environment(loader=FileSystemLoader('templates'))
-    template = env.get_template('commuinty_card_back.svg.j2')
+    template = env.get_template('community_card_back.svg.j2')
 
     # 3. Daten an das Template übergeben
     return template.render(
