@@ -1,7 +1,7 @@
 # TODO
 - change euro sign to flip korean WON symbol (₩)
-- create train station, wasserwerk und elektrizitätswerkt cards
+- check card names again, especially train station and special cards
 - adjust font to bold for better readablity
 - add SVG images to background of activity and community cards
-- check values of cards again
 - create layout for printing
+- check values of cards again

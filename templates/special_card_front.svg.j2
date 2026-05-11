@@ -26,10 +26,14 @@
     <!-- Mietentabelle -->
     <g transform="translate({{margin + 15}}, {{rect_y + header_h + 35}})" class="card-text-bold" font-size="13">
         <line x1="0%" y1="0" x2="84%" y2="0" style="stroke:black;stroke-width:1.5"/>
-        <text x="0" y="35">Miete</text> <text x="{{width - 2*margin - 30}}" y="35" text-anchor="end">{{0}}€</text>
-        <text x="0" y="55">Wenn man 2 Bahnhöfe besitzt</text> <text x="{{width - 2*margin - 30}}" y="55" text-anchor="end">{{2}}€</text>
-        <text x="0" y="75">Wenn man 3 Bahnhöfe besitzt</text> <text x="{{width - 2*margin - 30}}" y="75" text-anchor="end">{{4}}€</text>
-        <text x="0" y="95">Wenn man 4 Bahnhöfe besitzt</text> <text x="{{width - 2*margin - 30}}" y="95" text-anchor="end">{{8}}€</text>
+        <text x="0" y="20" class="card-text-small">
+            <tspan x="40%" dy="0" text-anchor="middle">Wenn man ein Versorgungswerk</tspan>
+            <tspan x="40%" dy="1.2em" text-anchor="middle">besitzt, ist die Miete 4-mal so hoch</tspan>
+            <tspan x="40%" dy="1.2em" text-anchor="middle">wie der Würfelwurf.</tspan>
+            <tspan x="40%" dy="2.2em" text-anchor="middle">Wenn man beide Versorgungswerke</tspan>
+            <tspan x="40%" dy="1.2em" text-anchor="middle">besitzt, ist die Miete 10-mal so hoch</tspan>
+            <tspan x="40%" dy="1.2em" text-anchor="middle">wie der Würfelwurf.</tspan>
+        </text>
     </g>
 
 </svg>
