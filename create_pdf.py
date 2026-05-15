@@ -1,24 +1,26 @@
 import os
 import re
 import io
+import base64
+
 import logging  # 1. Logging importieren
-
-# 2. Den Root-Logger zwingend als ALLERERSTES konfigurieren!
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
-
-# 3. Den spezifischen CairoSVG-Logger scharf schalten
-logger = logging.getLogger('cairosvg')
-logger.setLevel(logging.DEBUG)
-
+#
+## 2. Den Root-Logger zwingend als ALLERERSTES konfigurieren!
+#logging.basicConfig(
+#    level=logging.DEBUG,
+#    format='%(asctime)s - %(levelname)s - %(message)s'
+#)
+#
+## 3. Den spezifischen CairoSVG-Logger scharf schalten
+#logger = logging.getLogger('cairosvg')
+#logger.setLevel(logging.DEBUG)
 # Erst danach die restlichen Bibliotheken importieren
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
 import cairosvg
 import xml.etree.ElementTree as ET
+
 
 
 def generate_duplex_cards_pdf(svg_folder, output_pdf, columns=3, rows=3, spacing_x_mm=0, spacing_y_mm=0, input_dpi=150):
@@ -100,10 +102,9 @@ def generate_duplex_cards_pdf(svg_folder, output_pdf, columns=3, rows=3, spacing
 
 
 def draw_clean_svg(canvas_obj, svg_path, x, y, width, height):
-    """ 
-    Rendert das SVG via Cairo. 
-    Betten eingebettete Base64-SVGs direkt als echte XML-Gruppen ein,
-    damit Filter, Masken und IDs (Wasser/Strom) nicht verloren gehen.
+    """
+    Renders the SVG to PNG via Cairo by forcing the exact target dimensions,
+    preventing any clipping or oversized artifacts in the final PDF.
     """
     abs_svg_path = os.path.abspath(svg_path)
     base_dir = os.path.dirname(abs_svg_path)
@@ -113,65 +114,68 @@ def draw_clean_svg(canvas_obj, svg_path, x, y, width, height):
     try:
         os.chdir(base_dir)
         
-        # Namensräume für den XML-Parser registrieren
         ET.register_namespace('', "http://w3.org")
         ET.register_namespace('xlink', "http://w3.org")
         
         tree = ET.parse(file_name)
         root = tree.getroot()
         
-        # Suchen und Ersetzen von <image>-Tags, die SVG-Base64 enthalten
-        elements_to_replace = []
+        # 1. Target dimensions for Cairo conversion (Convert points back to source pixels)
+        # Since width/height are in ReportLab points, we scale them to match the 150 DPI target
+        # Formula: Points * (Input_DPI / 72)
+        target_pixel_w = int(width * (150 / 72))
+        target_pixel_h = int(height * (150 / 72))
         
+        is_utility_card = any(name in file_name.lower() for name in ['wasserwerk', 'elektrizitätswerk'])
+        
+        elements_to_replace = []
         for parent in root.iter():
-            # Wir suchen nach Kindern, die 'image' sind
             for child in list(parent):
                 if child.tag.endswith('image'):
                     href = child.get('href') or child.get('{http://w3.org}href')
                     if href and "data:image/svg+xml;base64," in href:
-                        elements_to_replace.append((parent, child, href))
+                        if is_utility_card:
+                            elements_to_replace.append((parent, child, href))
+                        else:
+                            if not child.get('width') or child.get('width') == '0':
+                                child.set('width', '100%')
+                            if not child.get('height') or child.get('height') == '0':
+                                child.set('height', '100%')
         
         for parent, img_elem, href in elements_to_replace:
             try:
-                # 1. Base64-Vektor-Daten extrahieren und dekodieren
                 base64_data = href.split(',', 1)[1].strip()
-                # Bereinigen von eventuellen Whitespaces aus dem SVG-Export
                 base64_data = re.sub(r'\s+', '', base64_data)
                 decoded_svg_bytes = base64.b64decode(base64_data)
                 
-                # 2. Das eingebettete SVG parsen
                 sub_tree = ET.fromstring(decoded_svg_bytes)
-                
-                # 3. Umwandeln in eine Gruppe <g>, um Koordinaten (x, y) und Größe zu erhalten
                 group_elem = ET.Element('{http://w3.org}g')
                 
-                # Kopiere Positionierungs-Attribute des alten Bild-Tags auf die neue Gruppe
                 img_x = img_elem.get('x', '0')
                 img_y = img_elem.get('y', '0')
                 group_elem.set('transform', f'translate({img_x}, {img_y})')
                 
-                # Alle Kindelemente des inneren SVGs in die neue Gruppe übertragen
                 for sub_child in list(sub_tree):
                     group_elem.append(sub_child)
                     
-                # 4. Altes <image>-Tag durch die neue, native Grafikgruppe ersetzen
                 idx = list(parent).index(img_elem)
                 parent.remove(img_elem)
                 parent.insert(idx, group_elem)
-                
             except Exception as inner_e:
-                print(f"  ⚠️ Fehler beim Inlinen eines Bildes in {file_name}: {inner_e}")
+                print(f"  ⚠️ Fehler beim Inlinen in {file_name}: {inner_e}")
         
-        # Das modifizierte, nun vollständig native SVG im RAM speichern
         svg_io = io.BytesIO()
         tree.write(svg_io, encoding='utf-8', xml_declaration=True)
         repaired_svg_bytes = svg_io.getvalue()
         
-        # Render-Vorgang mit der vollständig verschmolzenen Vektordatei
+        # FIXED: output_width and output_height force Cairo to render the exact bounding box
         png_bytes = cairosvg.svg2png(
-            bytestring=repaired_svg_bytes,
-            unsafe=True
+            bytestring=repaired_svg_bytes, 
+            unsafe=True,
+            output_width=target_pixel_w,
+            output_height=target_pixel_h
         )
+        
         img_reader = ImageReader(io.BytesIO(png_bytes))
         canvas_obj.drawImage(img_reader, x, y, width=width, height=height)
             

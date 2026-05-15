@@ -15,7 +15,7 @@ card_height = 76
 def create_train_card_frontside(width, height, title, price, rents):
     # 1. Setup Jinja2 (sucht im Ordner 'templates')
     env = Environment(loader=FileSystemLoader('templates'))
-    template = env.get_template('special_card_front.svg.j2')
+    template = env.get_template('train_station_card_front.svg.j2')
 
     margin = convert.millimeter_to_pixel(3, DPI) # Abstand zum Kartenrand
     padding = 8 # Lücke zwischen Rahmen und Farbfeld
@@ -54,7 +54,7 @@ def create_train_card_frontside(width, height, title, price, rents):
 def create_train_card_backside(width, height, title, price, rents):
     # 1. Setup Jinja2 (sucht im Ordner 'templates')
     env = Environment(loader=FileSystemLoader('templates'))
-    template = env.get_template('special_card_back.svg.j2')
+    template = env.get_template('train_station_card_back.svg.j2')
 
     margin = convert.millimeter_to_pixel(3, DPI) # Abstand zum Kartenrand
     padding = 8 # Lücke zwischen Rahmen und Farbfeld

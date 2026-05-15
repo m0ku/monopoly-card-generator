@@ -93,7 +93,7 @@ def generate():
     if not os.path.exists("output/streets"):
         os.makedirs("output/streets")
 
-    for name in ['wasserwerk', 'elektrizitätswerk']:        
+    for name in ['Weingut Hemberger', 'Ulis Mühle']:        
         # Karte generieren (mit deiner Original-Logik)
         svg_content = create_special_card_frontside(
             width=card_width, 
