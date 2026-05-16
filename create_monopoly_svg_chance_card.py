@@ -57,7 +57,7 @@ def create_chance_card_backside(width, height):
         title_size=32,
         font_size=12,
         font_b64=read.as_base64("font/MONOPOLY_INLINE.woff2"),
-        img_b64=read.as_base64("img/figure1.svg"), # TODO: find tressure box as SVG, as grey background
+        img_b64=read.as_base64("img/question-mark.svg"),
     )
 
 def generate_from_csv(csv_filename):
