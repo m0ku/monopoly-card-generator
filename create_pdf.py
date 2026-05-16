@@ -147,3 +147,25 @@ generate_duplex_cards_pdf(
     spacing_y_mm=2,   
     input_dpi=150     # Konstante Ihrer SVG-Erstellung
 )
+
+# --- PARAMETER ANPASSEN UND STARTEN ---
+generate_duplex_cards_pdf(
+    svg_folder="output/community/", 
+    output_pdf="output/print/community.pdf", 
+    columns=2,     
+    rows=4,        
+    spacing_x_mm=2,   # Abstand zwischen Karten in mm (z.B. 2mm Platz für das Schneidemesser)
+    spacing_y_mm=2,   
+    input_dpi=150     # Konstante Ihrer SVG-Erstellung
+)
+
+# --- PARAMETER ANPASSEN UND STARTEN ---
+generate_duplex_cards_pdf(
+    svg_folder="output/chance/", 
+    output_pdf="output/print/chance.pdf", 
+    columns=2,     
+    rows=4,        
+    spacing_x_mm=2,   # Abstand zwischen Karten in mm (z.B. 2mm Platz für das Schneidemesser)
+    spacing_y_mm=2,   
+    input_dpi=150     # Konstante Ihrer SVG-Erstellung
+)
