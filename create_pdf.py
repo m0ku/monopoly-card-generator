@@ -106,19 +106,8 @@ def draw_clean_svg(canvas_obj, svg_path, x, y, width, height):
     Renders the SVG to PNG via Cairo by forcing the exact target dimensions,
     preventing any clipping or oversized artifacts in the final PDF.
     """
-    abs_svg_path = os.path.abspath(svg_path)
-    base_dir = os.path.dirname(abs_svg_path)
-    file_name = os.path.basename(abs_svg_path)
-    current_cwd = os.getcwd()
-    
-    try:
-        os.chdir(base_dir)
-        
-        ET.register_namespace('', "http://w3.org")
-        ET.register_namespace('xlink', "http://w3.org")
-        
-        tree = ET.parse(file_name)
-        root = tree.getroot()
+
+    with open(svg_path, 'rb') as f:
         
         # 1. Target dimensions for Cairo conversion (Convert points back to source pixels)
         # Since width/height are in ReportLab points, we scale them to match the 150 DPI target
@@ -126,51 +115,9 @@ def draw_clean_svg(canvas_obj, svg_path, x, y, width, height):
         target_pixel_w = int(width * (150 / 72))
         target_pixel_h = int(height * (150 / 72))
         
-        is_utility_card = any(name in file_name.lower() for name in ['wasserwerk', 'elektrizitätswerk'])
-        
-        elements_to_replace = []
-        for parent in root.iter():
-            for child in list(parent):
-                if child.tag.endswith('image'):
-                    href = child.get('href') or child.get('{http://w3.org}href')
-                    if href and "data:image/svg+xml;base64," in href:
-                        if is_utility_card:
-                            elements_to_replace.append((parent, child, href))
-                        else:
-                            if not child.get('width') or child.get('width') == '0':
-                                child.set('width', '100%')
-                            if not child.get('height') or child.get('height') == '0':
-                                child.set('height', '100%')
-        
-        for parent, img_elem, href in elements_to_replace:
-            try:
-                base64_data = href.split(',', 1)[1].strip()
-                base64_data = re.sub(r'\s+', '', base64_data)
-                decoded_svg_bytes = base64.b64decode(base64_data)
-                
-                sub_tree = ET.fromstring(decoded_svg_bytes)
-                group_elem = ET.Element('{http://w3.org}g')
-                
-                img_x = img_elem.get('x', '0')
-                img_y = img_elem.get('y', '0')
-                group_elem.set('transform', f'translate({img_x}, {img_y})')
-                
-                for sub_child in list(sub_tree):
-                    group_elem.append(sub_child)
-                    
-                idx = list(parent).index(img_elem)
-                parent.remove(img_elem)
-                parent.insert(idx, group_elem)
-            except Exception as inner_e:
-                print(f"  ⚠️ Fehler beim Inlinen in {file_name}: {inner_e}")
-        
-        svg_io = io.BytesIO()
-        tree.write(svg_io, encoding='utf-8', xml_declaration=True)
-        repaired_svg_bytes = svg_io.getvalue()
-        
         # FIXED: output_width and output_height force Cairo to render the exact bounding box
         png_bytes = cairosvg.svg2png(
-            bytestring=repaired_svg_bytes, 
+            file_obj=f, 
             unsafe=True,
             output_width=target_pixel_w,
             output_height=target_pixel_h
@@ -178,11 +125,7 @@ def draw_clean_svg(canvas_obj, svg_path, x, y, width, height):
         
         img_reader = ImageReader(io.BytesIO(png_bytes))
         canvas_obj.drawImage(img_reader, x, y, width=width, height=height)
-            
-    except Exception as e:
-        print(f"  ❌ Schwerer Render-Fehler bei Datei {file_name}: {e}")
-    finally:
-        os.chdir(current_cwd)
+        
 
 def render_duplex_page(canvas_obj, fronts, backs, columns, rows, page_height, margin_x, margin_y, spacing_x, spacing_y, card_w, card_h):
     # --- SEITE A: VORDERSEITEN ---
