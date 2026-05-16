@@ -2,25 +2,10 @@ import os
 import re
 import io
 import base64
-
-import logging  # 1. Logging importieren
-#
-## 2. Den Root-Logger zwingend als ALLERERSTES konfigurieren!
-#logging.basicConfig(
-#    level=logging.DEBUG,
-#    format='%(asctime)s - %(levelname)s - %(message)s'
-#)
-#
-## 3. Den spezifischen CairoSVG-Logger scharf schalten
-#logger = logging.getLogger('cairosvg')
-#logger.setLevel(logging.DEBUG)
-# Erst danach die restlichen Bibliotheken importieren
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
 import cairosvg
-import xml.etree.ElementTree as ET
-
 
 
 def generate_duplex_cards_pdf(svg_folder, output_pdf, columns=3, rows=3, spacing_x_mm=0, spacing_y_mm=0, input_dpi=150):
