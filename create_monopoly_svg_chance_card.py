@@ -11,8 +11,8 @@ DPI = 150 # DPI setting
 card_width = 86.5
 card_height = 56
 
-# chance card - yellow #f5da0f
-activity_card_color = "#d2932d"
+# chance card - yellow #e0813dff
+activity_card_color = "#e0813dff"
 
 def create_chance_card_frontside(width, height, text):
     # 1. Setup Jinja2 (sucht im Ordner 'templates')

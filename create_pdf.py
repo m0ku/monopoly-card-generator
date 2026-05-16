@@ -105,7 +105,7 @@ def draw_clean_svg(canvas_obj, svg_path, x, y, width, height):
             file_obj=f, 
             unsafe=True,
             output_width=target_pixel_w,
-            output_height=target_pixel_h
+            output_height=target_pixel_h,
         )
         
         img_reader = ImageReader(io.BytesIO(png_bytes))

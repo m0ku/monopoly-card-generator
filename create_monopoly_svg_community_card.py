@@ -11,7 +11,7 @@ DPI = 150 # DPI setting
 card_width = 86.5
 card_height = 56
 activity_card_color = "#f5da0f"
-
+ 
 def create_community_card_frontside(width, height, text):
     # 1. Setup Jinja2 (sucht im Ordner 'templates')
     env = Environment(loader=FileSystemLoader('templates'))
