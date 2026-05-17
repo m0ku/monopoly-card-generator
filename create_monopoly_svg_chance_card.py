@@ -7,7 +7,7 @@ import read
 import convert
 
 # card parameters
-DPI = 150 # DPI setting
+DPI = 300 # DPI setting
 card_width = 86.5
 card_height = 56
 
@@ -36,8 +36,8 @@ def create_chance_card_frontside(width, height, text):
         width=convert.millimeter_to_pixel(width, DPI),
         height=convert.millimeter_to_pixel(height, DPI),
         color=activity_card_color,
-        title_size=22,
-        font_size=12,
+        title_size=40,
+        font_size=20,
         font_b64=read.as_base64("font/MONOPOLY_INLINE.woff2"),
         img_b64=read.as_base64("img/figure1.svg"),
         lines=lines
@@ -54,8 +54,8 @@ def create_chance_card_backside(width, height):
         width=convert.millimeter_to_pixel(width, DPI),
         height=convert.millimeter_to_pixel(height, DPI),
         color=activity_card_color,
-        title_size=32,
-        font_size=12,
+        title_size=40,
+        font_size=20,
         font_b64=read.as_base64("font/MONOPOLY_INLINE.woff2"),
         img_b64=read.as_base64("img/question-mark.svg"),
     )
