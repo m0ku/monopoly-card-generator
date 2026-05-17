@@ -76,7 +76,7 @@ def create_street_card_backside(width, height, title, price, rents):
         width=width_dpi,
         height=height_dpi,
         title_size=40,
-        font_size=24,
+        font_size=28,
         font_b64=read.as_base64("font/MONOPOLY_INLINE.woff2"),
         img_b64=read.as_base64("img/figure1.svg"),
         title=title,

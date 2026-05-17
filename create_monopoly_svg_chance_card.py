@@ -54,7 +54,7 @@ def create_chance_card_backside(width, height):
         width=convert.millimeter_to_pixel(width, DPI),
         height=convert.millimeter_to_pixel(height, DPI),
         color=activity_card_color,
-        title_size=40,
+        title_size=44,
         font_size=24,
         font_b64=read.as_base64("font/MONOPOLY_INLINE.woff2"),
         img_b64=read.as_base64("img/question-mark.svg"),
