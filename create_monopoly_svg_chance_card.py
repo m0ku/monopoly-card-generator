@@ -37,7 +37,7 @@ def create_chance_card_frontside(width, height, text):
         height=convert.millimeter_to_pixel(height, DPI),
         color=activity_card_color,
         title_size=40,
-        font_size=20,
+        font_size=24,
         font_b64=read.as_base64("font/MONOPOLY_INLINE.woff2"),
         img_b64=read.as_base64("img/figure1.svg"),
         lines=lines
@@ -55,7 +55,7 @@ def create_chance_card_backside(width, height):
         height=convert.millimeter_to_pixel(height, DPI),
         color=activity_card_color,
         title_size=40,
-        font_size=20,
+        font_size=24,
         font_b64=read.as_base64("font/MONOPOLY_INLINE.woff2"),
         img_b64=read.as_base64("img/question-mark.svg"),
     )
