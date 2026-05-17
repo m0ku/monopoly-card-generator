@@ -4,10 +4,10 @@
             font-family: 'Monopoly';
             src: url(data:font/woff2;base64,{{ font_b64 }}) format('woff2');
         }
-        .card-title { font-family: 'sans-serif'; font-size: {{ title_size }}px; font-weight: bold; }
-        .card-text-bold { font-family: 'sans-serif'; font-size: {{ font_size }}px; font-weight: bold; }
-        .card-text { font-family: 'sans-serif'; font-size: {{ font_size }}px;}
-        .card-text-small { font-family: 'sans-serif'; font-size: {{ font_size - 1 }}px;}
+        .card-title { font-family: 'sans-serif'; font-size: {{ title_size }}px; font-weight: bold; stroke: black; stroke-width: 1.5;  }
+        .card-text-bold { font-family: 'sans-serif'; font-size: {{ font_size }}px; stroke: black; stroke-width: 1.5; }
+        .card-text { font-family: 'sans-serif'; font-size: {{ font_size }}px; stroke: black; stroke-width: 1.0; }
+        .card-text-small { font-family: 'sans-serif'; font-size: {{ font_size - 4 }}px; stroke: black; stroke-width: 1.0; }
     </style>
 
     <!-- 1. Äußerer Kartenrand -->
@@ -20,31 +20,34 @@
     <rect x="{{rect_x}}" y="{{rect_y}}" width="{{rect_w}}" height="{{header_h}}" fill="{{color}}" stroke="black" stroke-width="1.5"/>
     
     <!-- Titel -->
-    <text x="50%" y="{{title_y - 20}}" text-anchor="middle" class="card-text-bold" fill="black" style="text-transform: uppercase;">BESITZRECHTKARTE</text>
-    <text x="50%" y="{{title_y + 15}}" text-anchor="middle" class="card-title" fill="black" style="text-transform: uppercase;">{{title.upper()}}</text>
+    <text x="50%" y="{{height * 0.12}}" text-anchor="middle" class="card-text-bold" fill="black">BESITZRECHTKARTE</text>
+    <text x="50%" y="{{height * 0.175}}" text-anchor="middle" class="card-title" fill="black">{{title.upper()}}</text>
     
     <!-- Mietentabelle -->
-    <g transform="translate({{margin + 15}}, {{rect_y + header_h + 35}})" class="monopoly-text-normal" font-size="14">
-        <text x="0" y="0">Grundstückswert</text> <text x="{{width - 2*margin - 30}}" y="0" text-anchor="end">{{price}}€</text>
-        <text x="0" y="20">Miete Grundstück allein</text> <text x="{{width - 2*margin - 30}}" y="20" text-anchor="end">{{rents[0]}}€</text>
-        <text x="0" y="40">Mit 1 Haus</text> <text x="{{width - 2*margin - 30}}" y="40" text-anchor="end">{{rents[1]}}€</text>
-        <text x="0" y="60">Mit 2 Häusern</text> <text x="{{width - 2*margin - 30}}" y="60" text-anchor="end">{{rents[2]}}€</text>
-        <text x="0" y="80">Mit 3 Häusern</text> <text x="{{width - 2*margin - 30}}" y="80" text-anchor="end">{{rents[3]}}€</text>
-        <text x="0" y="100">Mit 4 Häusern</text> <text x="{{width - 2*margin - 30}}" y="100" text-anchor="end">{{rents[4]}}€</text>
-        <text x="0" y="120">Mit Hotel</text> <text x="{{width - 2*margin - 30}}" y="120" text-anchor="end">{{rents[5]}}€</text>
-        <!-- circle cx="40%" cy="125" r="3" fill="red" /-->
-        <line x1="0%" y1="130" x2="84%" y2="130" style="stroke:black;stroke-width:0.5"/>
-        <text x="0" y="150" class="card-text-small">
-            <tspan x="40%" dy="0" text-anchor="middle" >Wenn ein Spieler alle Grundstücke einer</tspan>
-            <tspan x="40%" dy="1.2em" text-anchor="middle">Farbengruppe besitzt, so ist die Miete auf</tspan>
-            <tspan x="40%" dy="1.2em" text-anchor="middle" >den unbebauten Grundstücken dieser</tspan>
-            <tspan x="40%" dy="1.2em" text-anchor="middle" >Farbgruppe doppelt so hoch.</tspan>
+    <g transform="translate({{width * 0.1}}, {{height * 0.33}})" class="card-text">
+        <text x="0" y="0" class="card-text-small">
+            <tspan x="0%" dy="0" text-anchor="left">Grundstückswert</tspan><tspan x="80%" dy="0" text-anchor="end">{{price}}€</tspan>
+            <tspan x="0%" dy="1.4em" text-anchor="left">Miete Grundstück allein</tspan><tspan x="80%" dy="0" text-anchor="end">{{rents[0]}}€</tspan>
+            <tspan x="0%" dy="1.4em" text-anchor="left">Mit 1 Haus</tspan><tspan x="80%" dy="0" text-anchor="end">{{rents[1]}}€</tspan>
+            <tspan x="0%" dy="1.4em" text-anchor="left">Mit 2 Häusern</tspan><tspan x="80%" dy="0" text-anchor="end">{{rents[2]}}€</tspan>
+            <tspan x="0%" dy="1.4em" text-anchor="left">Mit 3 Häusern</tspan><tspan x="80%" dy="0" text-anchor="end">{{rents[3]}}€</tspan>
+            <tspan x="0%" dy="1.4em" text-anchor="left">Mit 4 Häusern</tspan><tspan x="80%" dy="0" text-anchor="end">{{rents[4]}}€</tspan>
+            <tspan x="0%" dy="1.4em" text-anchor="left">Mit Hotel</tspan><tspan x="80%" dy="0" text-anchor="end">{{rents[5]}}€</tspan>
         </text>
-        <line x1="0%" y1="205" x2="84%" y2="205" style="stroke:black;stroke-width:0.5"/>
-    <!-- Unterer Bereich -->
-    <text x="0%" y="230">1 Haus kostet</text> <text x="{{width - 2*margin - 30}}" y="230" text-anchor="end">{{rents[6]}}€</text>
-    <text x="0%" y="250">1 Hotel kostet</text> <text x="{{width - 2*margin - 30}}" y="250" text-anchor="end">{{rents[7]}}€</text>
-    <text x="{{width - 2*margin - 30}}" y="265" text-anchor="end" class="card-text-small">(plus 4 Häuser)</text>
+        <line x1="0%" y1="{{height * 0.26}}" x2="84%" y2="{{height * 0.26}}" style="stroke:black;stroke-width:0.5"/>
+        <text x="0" y="{{height * 0.30}}" class="card-text-small">
+            <tspan x="40%" dy="0" text-anchor="middle" >Wenn ein Spieler alle Grundstücke einer</tspan>
+            <tspan x="40%" dy="1.4em" text-anchor="middle">Farbengruppe besitzt, so ist die Miete auf</tspan>
+            <tspan x="40%" dy="1.4em" text-anchor="middle" >den unbebauten Grundstücken dieser</tspan>
+            <tspan x="40%" dy="1.4em" text-anchor="middle" >Farbgruppe doppelt so hoch.</tspan>
+        </text>
+        <line x1="0%" y1="{{height*0.44}}" x2="84%" y2="{{height*0.44}}" style="stroke:black;stroke-width:0.5"/>
+        <!-- Unterer Bereich -->
+        <text x="0" y="{{height * 0.49}}" class="card-text-small">
+            <tspan x="0%" dy="0" text-anchor="left">1 Haus kostet</tspan><tspan x="80%" dy="0" text-anchor="end">{{rents[6]}}€</tspan>
+            <tspan x="0%" dy="1.4em" text-anchor="left">1 Hotel kostet</tspan><tspan x="80%" dy="0" text-anchor="end">{{rents[7]}}€</tspan>
+            <tspan x="80%" dy="1.4em" text-anchor="end">(plus 4 Häuser)</tspan>
+        </text>
     </g>
 
 </svg>

@@ -145,7 +145,7 @@ generate_duplex_cards_pdf(
     rows=3,        
     spacing_x_mm=2,   # Abstand zwischen Karten in mm (z.B. 2mm Platz für das Schneidemesser)
     spacing_y_mm=2,   
-    input_dpi=150     # Konstante Ihrer SVG-Erstellung
+    input_dpi=300     # Konstante Ihrer SVG-Erstellung
 )
 
 # --- PARAMETER ANPASSEN UND STARTEN ---

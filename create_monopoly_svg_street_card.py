@@ -8,7 +8,7 @@ import read
 import convert
 
 # card parameters
-DPI = 150 # DPI setting
+DPI = 300 # DPI setting
 card_width = 66.6
 card_height = 76
 
@@ -35,8 +35,8 @@ def create_street_card_frontside(width, height, color, title, price, rents):
         width=width_dpi,
         height=height_dpi,
         color=color,
-        title_size=22,
-        font_size=12,
+        title_size=40,
+        font_size=28,
         font_b64=read.as_base64("font/MONOPOLY_INLINE.woff2"),
         img_b64=read.as_base64("img/figure1.svg"),
         title=title,
@@ -75,8 +75,8 @@ def create_street_card_backside(width, height, title, price, rents):
     return template.render(
         width=width_dpi,
         height=height_dpi,
-        title_size=22,
-        font_size=14,
+        title_size=40,
+        font_size=24,
         font_b64=read.as_base64("font/MONOPOLY_INLINE.woff2"),
         img_b64=read.as_base64("img/figure1.svg"),
         title=title,
